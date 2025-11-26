@@ -43,15 +43,9 @@ class FailedJobResource extends Resource
         return static::getPlugin()->isAuthorized();
     }
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string|UnitEnum|null
     {
-        $group = static::getPlugin()->getNavigationGroup();
-
-        if ($group instanceof UnitEnum) {
-            return $group->name;
-        }
-
-        return $group;
+        return static::getPlugin()->getNavigationGroup();
     }
 
     public static function getNavigationLabel(): string
