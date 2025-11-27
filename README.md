@@ -81,6 +81,53 @@ accepts `Filament\Tables\Enums\FiltersLayout` parameter.
 FailedJobsPlugin::make()->filtersLayout(FiltersLayout::AboveContent)
 ```
 
+### Authorization
+You can restrict access to the failed jobs resource using the `authorize` method. This accepts a boolean or a closure that returns a boolean.
+
+```php
+FailedJobsPlugin::make()->authorize(fn () => auth()->user()->can('view-failed-jobs'))
+```
+
+### Navigation Group
+You can change the navigation group using the `navigationGroup` method. This accepts a string, `UnitEnum` or `Closure`.
+
+```php
+FailedJobsPlugin::make()->navigationGroup('System')
+```
+
+### Navigation Label
+You can customize the navigation label using the `navigationLabel` method.
+
+```php
+FailedJobsPlugin::make()->navigationLabel('Queue Failures')
+```
+
+### Navigation Icon
+You can change the navigation icon using the `navigationIcon` method. This accepts a Heroicon string or a `Heroicon` enum value.
+
+```php
+FailedJobsPlugin::make()->navigationIcon('heroicon-o-exclamation-triangle')
+```
+
+### Navigation Sort Order
+You can change the navigation sort order using the `navigationSort` method.
+
+```php
+FailedJobsPlugin::make()->navigationSort(10)
+```
+
+### Combined Example
+You can chain multiple configuration methods together.
+
+```php
+FailedJobsPlugin::make()
+    ->authorize(fn () => auth()->user()->isAdmin())
+    ->navigationGroup('System')
+    ->navigationLabel('Failed Jobs')
+    ->navigationIcon('heroicon-o-queue-list')
+    ->navigationSort(50)
+```
+
 ## Testing
 
 ```bash

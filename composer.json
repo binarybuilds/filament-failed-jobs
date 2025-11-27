@@ -26,7 +26,9 @@
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^8.0",
         "nunomaduro/larastan": "^3.7",
-        "orchestra/testbench": "^10.0"
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.0|^4.1",
+        "pestphp/pest-plugin-laravel": "^3.0|^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +44,7 @@
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
+        "test-coverage": "vendor/bin/pest --coverage --coverage-html=coverage --coverage-text",
         "format": "vendor/bin/pint"
     },
     "config": {
