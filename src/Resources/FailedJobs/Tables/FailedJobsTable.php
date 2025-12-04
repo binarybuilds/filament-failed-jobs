@@ -17,6 +17,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class FailedJobsTable
 {
@@ -58,13 +59,16 @@ class FailedJobsTable
     private static function getFiltersForIndex(): array
     {
         $jobs = FailedJob::query()
-            ->select(['connection', 'queue'])
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(payload, '$.displayName')) AS job")
+            ->select(['connection', 'queue', 'payload->displayName AS job'])
             ->get();
 
         $connections = $jobs->pluck('connection', 'connection')->map(fn ($conn) => ucfirst($conn))->toArray();
         $queues = $jobs->pluck('queue', 'queue')->map(fn ($queue) => ucfirst($queue))->toArray();
-        $jobNames = $jobs->pluck('job', 'job')->toArray();
+        $jobNames = $jobs
+            ->pluck('job', 'job')
+            ->map(fn ($job) => trim($job, '"'))
+            ->map(fn ($job) => Str::replace('\\\\', '\\', $job))
+            ->toArray();
 
         return [
             SelectFilter::make('Connection')->options($connections),
@@ -77,7 +81,7 @@ class FailedJobsTable
                     return $query
                         ->when(
                             $data['job'],
-                            fn (Builder $query, $job): Builder => $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(payload, '$.displayName')) = ?", [$job]),
+                            fn (Builder $query, $job): Builder => $query->where('payload->displayName', Str::trim(Str::replace('\\\\', '\\', $job), '"')),
                         );
                 }),
             Filter::make('failed_at')
