@@ -59,8 +59,13 @@ class FailedJobsTable
     private static function getFiltersForIndex(): array
     {
         $jobs = FailedJob::query()
-            ->select(['connection', 'queue', 'payload->displayName AS job'])
-            ->get();
+            ->select(['connection', 'queue', 'payload'])
+            ->get()
+            ->map(function (FailedJob $failedJob) {
+                $failedJob->job = json_decode($failedJob->payload, true)['displayName'];
+
+                return $failedJob;
+            });
 
         $connections = $jobs->pluck('connection', 'connection')->map(fn ($conn) => ucfirst($conn))->toArray();
         $queues = $jobs->pluck('queue', 'queue')->map(fn ($queue) => ucfirst($queue))->toArray();
@@ -81,7 +86,7 @@ class FailedJobsTable
                     return $query
                         ->when(
                             $data['job'],
-                            fn (Builder $query, $job): Builder => $query->where('payload->displayName', Str::trim(Str::replace('\\\\', '\\', $job), '"')),
+                            fn (Builder $query, $job): Builder => $query->whereLike('payload', '%' . Str::trim(Str::afterLast($job, '\\'), '"') . '%'),
                         );
                 }),
             Filter::make('failed_at')
