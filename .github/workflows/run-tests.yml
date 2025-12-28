@@ -80,4 +80,4 @@ jobs:
         run: ./vendor/bin/testbench db:show
 
       - name: Execute tests
-        run: composer test-coverage --ci
+        run: composer test
