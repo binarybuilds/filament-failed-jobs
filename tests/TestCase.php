@@ -63,12 +63,12 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'pgsql');
-//        config()->set('database.connections.testing', [
-//            'driver' => 'sqlite',
-//            'database' => ':memory:',
-//            'prefix' => '',
-//        ]);
+        //        config()->set('database.default', 'testing');
+        //        config()->set('database.connections.testing', [
+        //            'driver' => 'sqlite',
+        //            'database' => ':memory:',
+        //            'prefix' => '',
+        //        ]);
         config()->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
     }
 
