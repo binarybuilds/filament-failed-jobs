@@ -76,5 +76,8 @@ jobs:
       - name: Run migrations
         run: ./vendor/bin/testbench migrate
 
+      - name: Check Database
+        run: ./vendor/bin/testbench db:show
+
       - name: Execute tests
         run: composer test-coverage --ci
