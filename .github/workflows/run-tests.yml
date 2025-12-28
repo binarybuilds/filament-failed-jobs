@@ -73,5 +73,8 @@ jobs:
       - name: List Installed Dependencies
         run: composer show -D
 
+      - name: Run migrations
+        run: ./vendor/bin/testbench migrate
+
       - name: Execute tests
         run: composer test-coverage --ci
