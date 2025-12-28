@@ -22,13 +22,15 @@ composer require binarybuilds/filament-failed-jobs
 Register the plugin in your panel service provider as
 
 ```php
-$panel->plugin(FailedJobsPlugin::make());
+use BinaryBuilds\FilamentFailedJobs\FilamentFailedJobsPlugin;
+
+$panel->plugin(FilamentFailedJobsPlugin::make());
 ```
 > [!IMPORTANT]
 > If you are using laravel horizon, Instruct the plugin by chaining the `->usingHorizon()` method.
 
 ## Retrying Failed Jobs
-You can retry failed jobs each one separetely using the retry action next to each job, or bulk retry by selecting 
+You can retry failed jobs each one separately using the retry action next to each job, or bulk retry by selecting 
 multiple jobs and then using the bulk options' menu. You can also use the global retry action to retry all failed jobs or 
 jobs from a specific queue.
 
@@ -49,7 +51,7 @@ If you have too many stale failed jobs, You can use the global prune jobs action
 This action will prompt you to input the hours to retain the failed jobs. Any failed jobs that are older than the 
 given hours will be pruned.
 
-For example, If you enter 12 hours, It will prune all failed jobs which are older than 12 hours.
+For example, If you enter 12 hours, It will prune all failed jobs that are older than 12 hours.
 
 ![retry failed jobs](/resources/screenshots/prune-modal.png)
 
@@ -62,14 +64,14 @@ Most of the applications do not leverage more than one queue connection. So it w
 column in this case. You can do so by chaining the `hideConnectionOnIndex` method as below.
 
 ```php
-FailedJobsPlugin::make()->hideConnectionOnIndex()
+FilamentFailedJobsPlugin::make()->hideConnectionOnIndex()
 ```
 
 ### Remove queue column from index table
 Similarly, if your application only pushes to the default queue, You can hide the queue column by chaining the `hideQueueOnIndex` method as below.
 
 ```php
-FailedJobsPlugin::make()->hideQueueOnIndex()
+FilamentFailedJobsPlugin::make()->hideQueueOnIndex()
 ```
 
 ### Change filters layout
@@ -78,49 +80,49 @@ filters are displayed, You can do so by chaining `filtersLayout` method which
 accepts `Filament\Tables\Enums\FiltersLayout` parameter.
 
 ```php
-FailedJobsPlugin::make()->filtersLayout(FiltersLayout::AboveContent)
+FilamentFailedJobsPlugin::make()->filtersLayout(FiltersLayout::AboveContent)
 ```
 
 ### Authorization
 You can restrict access to the failed jobs resource using the `authorize` method. This accepts a boolean or a closure that returns a boolean.
 
 ```php
-FailedJobsPlugin::make()->authorize(fn () => auth()->user()->can('view-failed-jobs'))
+FilamentFailedJobsPlugin::make()->authorize(fn () => auth()->user()->can('view-failed-jobs'))
 ```
 
 ### Navigation Group
 You can change the navigation group using the `navigationGroup` method. This accepts a string, `UnitEnum` or `Closure`.
 
 ```php
-FailedJobsPlugin::make()->navigationGroup('System')
+FilamentFailedJobsPlugin::make()->navigationGroup('System')
 ```
 
 ### Navigation Label
 You can customize the navigation label using the `navigationLabel` method.
 
 ```php
-FailedJobsPlugin::make()->navigationLabel('Queue Failures')
+FilamentFailedJobsPlugin::make()->navigationLabel('Queue Failures')
 ```
 
 ### Navigation Icon
 You can change the navigation icon using the `navigationIcon` method. This accepts a Heroicon string or a `Heroicon` enum value.
 
 ```php
-FailedJobsPlugin::make()->navigationIcon('heroicon-o-exclamation-triangle')
+FilamentFailedJobsPlugin::make()->navigationIcon('heroicon-o-exclamation-triangle')
 ```
 
 ### Navigation Sort Order
 You can change the navigation sort order using the `navigationSort` method.
 
 ```php
-FailedJobsPlugin::make()->navigationSort(10)
+FilamentFailedJobsPlugin::make()->navigationSort(10)
 ```
 
 ### Combined Example
 You can chain multiple configuration methods together.
 
 ```php
-FailedJobsPlugin::make()
+FilamentFailedJobsPlugin::make()
     ->authorize(fn () => auth()->user()->isAdmin())
     ->navigationGroup('System')
     ->navigationLabel('Failed Jobs')
