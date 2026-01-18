@@ -14,9 +14,17 @@ class ListFailedJobs extends ListRecords
 {
     protected static string $resource = FailedJobResource::class;
 
+    protected $listeners = [
+        'refreshFaileJobsTable' => '$refresh'
+    ];
+
     protected function getHeaderActions(): array
     {
         return [
+            Action::make(__('Refresh'))
+                ->color('info')
+                ->action(fn () => $this->dispatch('refreshFaileJobsTable')),
+
             Action::make(__('Retry Jobs'))
                 ->requiresConfirmation()
                 ->schema(function () {
