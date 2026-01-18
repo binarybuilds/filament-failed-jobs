@@ -21,6 +21,10 @@ class FilamentFailedJobsPlugin implements Plugin
 
     public bool $hideQueueOnIndex = false;
 
+    public bool $poll = true;
+
+    public string $pollingInterval = '60s';
+
     public FiltersLayout $filtersLayout = FiltersLayout::Dropdown;
 
     public function getId(): string
@@ -111,6 +115,25 @@ class FilamentFailedJobsPlugin implements Plugin
         $this->navigationSort = $sort;
 
         return $this;
+    }
+
+    public function withPolling(bool $poll = true): static
+    {
+        $this->poll = $poll;
+
+        return $this;
+    }
+
+    public function pollingInterval(string $interval): static
+    {
+        $this->pollingInterval = $interval;
+
+        return $this;
+    }
+
+    public function shouldPoll(): bool
+    {
+        return $this->poll;
     }
 
     public static function make(): static
