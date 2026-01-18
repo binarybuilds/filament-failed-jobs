@@ -26,19 +26,23 @@ use BinaryBuilds\FilamentFailedJobs\FilamentFailedJobsPlugin;
 
 $panel->plugin(FilamentFailedJobsPlugin::make());
 ```
+
 > [!IMPORTANT]
 > If you are using laravel horizon, Instruct the plugin by chaining the `->usingHorizon()` method.
 
 ## Retrying Failed Jobs
-You can retry failed jobs each one separately using the retry action next to each job, or bulk retry by selecting 
-multiple jobs and then using the bulk options' menu. You can also use the global retry action to retry all failed jobs or 
+
+You can retry failed jobs each one separately using the retry action next to each job, or bulk retry by selecting
+multiple jobs and then using the bulk options' menu. You can also use the global retry action to retry all failed jobs or
 jobs from a specific queue.
 
 ![retry failed jobs](/resources/screenshots/retry-modal.png)
 
 ## Filtering Jobs
-This plugin by default comes with the following filters which you can use to 
+
+This plugin by default comes with the following filters which you can use to
 filter failed jobs.
+
 - Connection
 - Queue
 - Job
@@ -47,8 +51,9 @@ filter failed jobs.
 ![filter failed jobs](/resources/screenshots/filters.png)
 
 ## Pruning Jobs
-If you have too many stale failed jobs, You can use the global prune jobs action to prune stale failed jobs. 
-This action will prompt you to input the hours to retain the failed jobs. Any failed jobs that are older than the 
+
+If you have too many stale failed jobs, You can use the global prune jobs action to prune stale failed jobs.
+This action will prompt you to input the hours to retain the failed jobs. Any failed jobs that are older than the
 given hours will be pruned.
 
 For example, If you enter 12 hours, It will prune all failed jobs that are older than 12 hours.
@@ -56,10 +61,12 @@ For example, If you enter 12 hours, It will prune all failed jobs that are older
 ![retry failed jobs](/resources/screenshots/prune-modal.png)
 
 ## Customization
+
 This plugin works out of the box and adds a `Failed Jobs` resource to your admin panel. You can customize the
 display if needed.
 
 ### Remove connection column from index table
+
 Most of the applications do not leverage more than one queue connection. So it would be clean to hide the connection
 column in this case. You can do so by chaining the `hideConnectionOnIndex` method as below.
 
@@ -68,6 +75,7 @@ FilamentFailedJobsPlugin::make()->hideConnectionOnIndex()
 ```
 
 ### Remove queue column from index table
+
 Similarly, if your application only pushes to the default queue, You can hide the queue column by chaining the `hideQueueOnIndex` method as below.
 
 ```php
@@ -75,6 +83,7 @@ FilamentFailedJobsPlugin::make()->hideQueueOnIndex()
 ```
 
 ### Change filters layout
+
 This plugin comes with a few filters to help you easily filter failed jobs. If you would like to change how the
 filters are displayed, You can do so by chaining `filtersLayout` method which
 accepts `Filament\Tables\Enums\FiltersLayout` parameter.
@@ -84,6 +93,7 @@ FilamentFailedJobsPlugin::make()->filtersLayout(FiltersLayout::AboveContent)
 ```
 
 ### Authorization
+
 You can restrict access to the failed jobs resource using the `authorize` method. This accepts a boolean or a closure that returns a boolean.
 
 ```php
@@ -91,6 +101,7 @@ FilamentFailedJobsPlugin::make()->authorize(fn () => auth()->user()->can('view-f
 ```
 
 ### Navigation Group
+
 You can change the navigation group using the `navigationGroup` method. This accepts a string, `UnitEnum` or `Closure`.
 
 ```php
@@ -98,6 +109,7 @@ FilamentFailedJobsPlugin::make()->navigationGroup('System')
 ```
 
 ### Navigation Label
+
 You can customize the navigation label using the `navigationLabel` method.
 
 ```php
@@ -105,6 +117,7 @@ FilamentFailedJobsPlugin::make()->navigationLabel('Queue Failures')
 ```
 
 ### Navigation Icon
+
 You can change the navigation icon using the `navigationIcon` method. This accepts a Heroicon string or a `Heroicon` enum value.
 
 ```php
@@ -112,13 +125,31 @@ FilamentFailedJobsPlugin::make()->navigationIcon('heroicon-o-exclamation-triangl
 ```
 
 ### Navigation Sort Order
+
 You can change the navigation sort order using the `navigationSort` method.
 
 ```php
 FilamentFailedJobsPlugin::make()->navigationSort(10)
 ```
 
+### Polling for new failed jobs
+
+By default, the table will refresh (poll) every 60 seconds to retrieve new failed jobs. You can change the polling interval by passing an interval string to the `pollingInterval` method.
+
+```php
+FilamentFailedJobsPlugin::make()
+    ->pollingInterval('60s')
+```
+
+Altertavely, you can disable the polling functionality entirely by passing a `false` value to the `withPolling` method.
+
+```php
+FilamentFailedJobsPlugin::make()
+    ->withPolling(false)
+```
+
 ### Combined Example
+
 You can chain multiple configuration methods together.
 
 ```php
@@ -128,6 +159,8 @@ FilamentFailedJobsPlugin::make()
     ->navigationLabel('Failed Jobs')
     ->navigationIcon('heroicon-o-queue-list')
     ->navigationSort(50)
+    ->withPolling(true)
+    ->pollingInterval('60s')
 ```
 
 ## Testing

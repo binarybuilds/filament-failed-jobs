@@ -24,6 +24,13 @@ class FailedJobsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->poll(function () {
+                $plugin = FilamentFailedJobsPlugin::get();
+
+                return $plugin->shouldPoll() ?
+                    $plugin->pollingInterval :
+                    null;
+            })
             ->columns(array_filter([
                 TextColumn::make('id')
                     ->numeric()
