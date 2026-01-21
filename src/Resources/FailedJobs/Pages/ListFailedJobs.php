@@ -15,7 +15,7 @@ class ListFailedJobs extends ListRecords
     protected static string $resource = FailedJobResource::class;
 
     protected $listeners = [
-        'refreshFaileJobsTable' => '$refresh'
+        'refreshFaileJobsTable' => '$refresh',
     ];
 
     protected function getHeaderActions(): array
