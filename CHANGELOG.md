@@ -2,6 +2,21 @@
 
 All notable changes to `binarybuilds/filament-failed-jobs` will be documented in this file.
 
+## v2.1.0 - 2026-01-21
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/binarybuilds/filament-failed-jobs/pull/12
+* Filament 5 by @swilla in https://github.com/binarybuilds/filament-failed-jobs/pull/14
+* Add functionality to optionally poll the table every 60 seconds, which can also be configured to change the interval or disable the functionality entirely by @Yismen in https://github.com/binarybuilds/filament-failed-jobs/pull/13
+
+### New Contributors
+
+* @swilla made their first contribution in https://github.com/binarybuilds/filament-failed-jobs/pull/14
+* @Yismen made their first contribution in https://github.com/binarybuilds/filament-failed-jobs/pull/13
+
+**Full Changelog**: https://github.com/binarybuilds/filament-failed-jobs/compare/v2.0.1...v2.1.0
+
 ## v2.0.1 - 2025-12-28
 
 ### What's Changed
